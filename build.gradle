@@ -2,7 +2,6 @@ buildscript {
         ext {
                 springBootVersion = '2.0.3.RELEASE'
                 generatedMapperSourcesDir = "${buildDir}/generated-src/mapstruct/main"
-                mapstructVersion = "1.2.0.Final"
         }
         repositories {
                 mavenCentral()
@@ -35,7 +34,6 @@ repositories {
 dependencies {
         compile('org.springframework.boot:spring-boot-starter-data-jpa')
         compile('org.springframework.boot:spring-boot-starter-web')
-       // compileOnly('org.projectlombok:lombok')
         compile('org.mapstruct:mapstruct-jdk8:1.2.0.Final', 'org.projectlombok:lombok')
         apt('org.mapstruct:mapstruct-processor:1.2.0.Final','org.projectlombok:lombok')
         runtime('com.h2database:h2')
