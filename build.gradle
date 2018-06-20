@@ -1,0 +1,66 @@
+buildscript {
+        ext {
+                springBootVersion = '2.0.3.RELEASE'
+                generatedMapperSourcesDir = "${buildDir}/generated-src/mapstruct/main"
+                mapstructVersion = "1.2.0.Final"
+        }
+        repositories {
+                mavenCentral()
+                maven {
+                        url "https://plugins.gradle.org/m2/"
+                }
+        }
+        dependencies {
+                classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+                classpath("net.ltgt.gradle:gradle-apt-plugin:0.15")
+        }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'jacoco'
+apply plugin: 'net.ltgt.apt'
+
+group = 'org.maxwell.springframework'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+        mavenCentral()
+}
+
+
+dependencies {
+        compile('org.springframework.boot:spring-boot-starter-data-jpa')
+        compile('org.springframework.boot:spring-boot-starter-web')
+       // compileOnly('org.projectlombok:lombok')
+        compile('org.mapstruct:mapstruct-jdk8:1.2.0.Final', 'org.projectlombok:lombok')
+        apt('org.mapstruct:mapstruct-processor:1.2.0.Final','org.projectlombok:lombok')
+        runtime('com.h2database:h2')
+        testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+
+test {
+        testLogging {
+        // Show that tests are run in the command-line output
+        events "PASSED", "FAILED", "SKIPPED"
+        exceptionFormat "short"
+        // showStandardStreams = true
+    }
+    outputs.upToDateWhen { false }
+}
+
+//export test coverage
+jacocoTestReport {
+    group = "Reporting"
+    reports {
+        xml.enabled true
+        csv.enabled false
+        html.destination "${buildDir}/reports/coverage"
+    }
+}
+
+test.finalizedBy(project.tasks.jacocoTestReport)
