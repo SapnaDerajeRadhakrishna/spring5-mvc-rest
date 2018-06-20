@@ -40,7 +40,6 @@ dependencies {
         testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
-
 test {
         testLogging {
         // Show that tests are run in the command-line output
