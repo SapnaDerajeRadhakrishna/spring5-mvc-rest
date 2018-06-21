@@ -1,7 +1,6 @@
 buildscript {
         ext {
                 springBootVersion = '2.0.3.RELEASE'
-                generatedMapperSourcesDir = "${buildDir}/generated-src/mapstruct/main"
         }
         repositories {
                 mavenCentral()
@@ -26,16 +25,23 @@ group = 'org.maxwell.springframework'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
+ext{
+        swaggerVersion = '2.8.0'
+        mapStructVersion = '1.2.0.Final'
+}
+
 repositories {
         mavenCentral()
 }
 
-
 dependencies {
+        
         compile('org.springframework.boot:spring-boot-starter-data-jpa')
         compile('org.springframework.boot:spring-boot-starter-web')
-        compile('org.mapstruct:mapstruct-jdk8:1.2.0.Final', 'org.projectlombok:lombok')
-        apt('org.mapstruct:mapstruct-processor:1.2.0.Final','org.projectlombok:lombok')
+        compile("io.springfox:springfox-swagger-ui:${swaggerVersion}")
+        compile("io.springfox:springfox-swagger2:${swaggerVersion}")
+        compile("org.mapstruct:mapstruct-jdk8:${mapStructVersion}", 'org.projectlombok:lombok')
+        apt("org.mapstruct:mapstruct-processor:${mapStructVersion}",'org.projectlombok:lombok')
         runtime('com.h2database:h2')
         testCompile('org.springframework.boot:spring-boot-starter-test')
 }

@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@Api(value="Customer Controller")
 @RestController
 @RequestMapping(CustomerController.BASE_URL)
 public class CustomerController {
@@ -33,6 +37,7 @@ public class CustomerController {
 		return new CustomerListDTO(customerService.getAllCustomers());
 	}
 
+	@ApiOperation(value = "This will get a list of customers.", notes = "These are some notes about the API.")
 	@GetMapping({ "/{id}" })
 	@ResponseStatus(HttpStatus.OK)
 	public CustomerDTO getCustomerById(@PathVariable Long id) {
