@@ -8,5 +8,13 @@ public interface CustomerService {
 
 	List<CustomerDTO> getAllCustomers();
 
-	CustomerDTO getCustomerByName(String name);
+	CustomerDTO getCustomerById(Long  Id);
+
+	CustomerDTO createNewCustomer(CustomerDTO customerDTO);
+	
+	 CustomerDTO saveCustomerByDTO(Long id, CustomerDTO customerDTO);
+	 
+	 CustomerDTO patchCustomer(Long id, CustomerDTO customerDTO);
+	 
+	 void deleteCustomerById(Long id);
 }

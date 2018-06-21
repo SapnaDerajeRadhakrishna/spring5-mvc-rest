@@ -8,6 +8,7 @@ import org.maxwell.domain.Category;
 @Mapper(componentModel = "spring")
 public interface CategoryMapper {
 
-    CategoryMapper INSTANCE = Mappers.getMapper(CategoryMapper.class);
-    CategoryDTO categoryToCategoryDTO(Category category);
+	CategoryMapper INSTANCE = Mappers.getMapper(CategoryMapper.class);
+
+	CategoryDTO categoryToCategoryDTO(Category category);
 }
