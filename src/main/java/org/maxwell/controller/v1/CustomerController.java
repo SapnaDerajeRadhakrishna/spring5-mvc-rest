@@ -1,8 +1,13 @@
 package org.maxwell.controller.v1;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
 import org.maxwell.api.v1.model.CustomerDTO;
 import org.maxwell.api.v1.model.CustomerListDTO;
 import org.maxwell.services.CustomerService;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-@Api(value="Customer Controller")
+@Api(value = "Customer Controller")
 @RestController
 @RequestMapping(CustomerController.BASE_URL)
 public class CustomerController {
@@ -40,8 +45,15 @@ public class CustomerController {
 	@ApiOperation(value = "This will get a list of customers.", notes = "These are some notes about the API.")
 	@GetMapping({ "/{id}" })
 	@ResponseStatus(HttpStatus.OK)
-	public CustomerDTO getCustomerById(@PathVariable Long id) {
-		return customerService.getCustomerById(id);
+	public Resource<CustomerDTO> getCustomerById(@PathVariable Long id) {
+		CustomerDTO customer = customerService.getCustomerById(id);
+		// adding hateos capability
+		Resource<CustomerDTO> resource = new Resource<CustomerDTO>(customer);
+		ControllerLinkBuilder linkTo = linkTo(methodOn(this.getClass()).getallCustomers());
+
+		resource.add(linkTo.withRel("all-users"));
+
+		return resource;
 	}
 
 	@PostMapping

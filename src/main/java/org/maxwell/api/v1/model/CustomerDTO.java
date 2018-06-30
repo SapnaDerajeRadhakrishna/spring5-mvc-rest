@@ -11,15 +11,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CustomerDTO {
-	
+
 	private Long id;
-	
-	@ApiModelProperty(required = true )
+
+	@ApiModelProperty(required = true)
 	private String name;
-	
-	@ApiModelProperty(required = true )
+
+	@ApiModelProperty(required = true)
 	private String address;
 
 	@JsonProperty("customer_url")
-    private String customerUrl;
+	private String customerUrl;
 }

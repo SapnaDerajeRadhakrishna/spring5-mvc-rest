@@ -1,16 +1,20 @@
 package org.maxwell.controller.v1;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.hateoas.MediaTypes.HAL_JSON_VALUE;
+import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -72,6 +76,7 @@ public class CustomerControllerTest extends AbstractRestControllerTest {
 				.andExpect(jsonPath("$.customers", hasSize(2)));
 	}
 
+
 	@Test
 	public void testGetByIdCustomers() throws Exception {
 		CustomerDTO customer = new CustomerDTO();
@@ -82,9 +87,12 @@ public class CustomerControllerTest extends AbstractRestControllerTest {
 		when(customerService.getCustomerById(anyLong())).thenReturn(customer);
 
 		mockMvc.perform(get("/api/v1/customers/1")
-				.contentType(MediaType.APPLICATION_JSON))
+				.accept(HAL_JSON_VALUE))
+				.andExpect(header().string(CONTENT_TYPE,HAL_JSON_VALUE + ";charset=UTF-8"))
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.name", equalTo(NAME)));
+				.andExpect(jsonPath("$.name", equalTo(NAME)))
+				.andExpect(jsonPath("$.links[0].rel", equalTo("all-users")))
+				.andExpect(jsonPath("$.links[0].href", equalTo("http://localhost/api/v1/customers")));
 	}
 
 	@Test
