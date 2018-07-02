@@ -38,13 +38,17 @@ dependencies {
         
         compile('org.springframework.boot:spring-boot-starter-data-jpa')
         compile('org.springframework.boot:spring-boot-starter-web')
+        compile('org.springframework.boot:spring-boot-starter-actuator')
+        compile('org.springframework.boot:spring-boot-starter-security')
         compile('org.springframework.hateoas:spring-hateoas')
+        compile('org.springframework.data:spring-data-rest-hal-browser:3.0.8.RELEASE')
         compile("io.springfox:springfox-swagger-ui:${swaggerVersion}")
         compile("io.springfox:springfox-swagger2:${swaggerVersion}")
         compile("org.mapstruct:mapstruct-jdk8:${mapStructVersion}", 'org.projectlombok:lombok')
         apt("org.mapstruct:mapstruct-processor:${mapStructVersion}",'org.projectlombok:lombok')
         runtime('com.h2database:h2')
         testCompile('org.springframework.boot:spring-boot-starter-test')
+        testCompile("org.springframework.security:spring-security-test")
 }
 
 test {
